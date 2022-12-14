@@ -1,0 +1,13 @@
+name: action
+on: [push]
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: install vendor
+        run: make install
+      - name: testDiffer
+        run: make test
+      - name: linter
+        run: make lint

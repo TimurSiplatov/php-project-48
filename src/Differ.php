@@ -16,7 +16,7 @@ function genDiff(string $firstPath, string $secondPath, string $format = 'stylis
 
     foreach ($firstFile as $key => $value) {
         if (is_bool($value)) {
-            $value = $value ? "true" : "false"; 
+            $value = $value ? "true" : "false";
         }
         if (array_key_exists($key, $uniqKeysFromFirstFile)) {
             $result[] = "- {$key}: {$value}";
@@ -27,7 +27,7 @@ function genDiff(string $firstPath, string $secondPath, string $format = 'stylis
             $result[] = "+ {$key}: {$secondFile[$key]}";
         }
     }
-    
+
     foreach ($secondFile as $key => $value) {
         if (is_bool($value)) {
             $value = $value ? "true" : "false";
@@ -36,8 +36,8 @@ function genDiff(string $firstPath, string $secondPath, string $format = 'stylis
             $result[] = "+ {$key}: {$value}";
         }
     }
-    
+
     $result = array_unique($result);
     $result = implode("\n", $result);
-    return ("{\n{$result} \n}");
+    return ("{\n{$result}\n}");
 }
