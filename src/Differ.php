@@ -2,10 +2,12 @@
 
 namespace Differ\Differ;
 
+use function Differ\Parsers\parseFile;
+
 function genDiff(string $firstPath, string $secondPath, string $format = 'stylish')
 {
-    $firstFile = json_decode(file_get_contents($firstPath), FILE_USE_INCLUDE_PATH);
-    $secondFile = json_decode(file_get_contents($secondPath), FILE_USE_INCLUDE_PATH);
+    $firstFile = parseFile($firstPath);
+    $secondFile = parseFile($secondPath);
     ksort($firstFile);
     ksort($secondFile);
     $uniqKeysFromFirstFile = array_diff_key($firstFile, $secondFile);
