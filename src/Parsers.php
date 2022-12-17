@@ -15,5 +15,5 @@ function parseFile($pathToFile)
         return json_decode(file_get_contents($pathToFile), FILE_USE_INCLUDE_PATH);
     } elseif ($fileFormat === "yaml" || $fileFormat === "yml") {
         return Yaml::parseFile($pathToFile);
-    } 
+    }
 }
