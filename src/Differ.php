@@ -2,44 +2,39 @@
 
 namespace Differ\Differ;
 
+use function Differ\Formatters\Stylish\format;
 use function Differ\Parsers\parseFile;
+use function Functional\sort;
 
 function genDiff(string $firstPath, string $secondPath, string $format = 'stylish')
 {
     $firstFile = parseFile($firstPath);
     $secondFile = parseFile($secondPath);
-    ksort($firstFile);
-    ksort($secondFile);
-    $uniqKeysFromFirstFile = array_diff_key($firstFile, $secondFile);
-    $uniqKeysFromSecondFile = array_diff_key($secondFile, $firstFile);
-    $equalsKeys = array_intersect_assoc($firstFile, $secondFile);
+    $diffTree = buildDiff($firstFile, $secondFile);
 
-    $result = [];
+    return format($diffTree);
+}
 
-    foreach ($firstFile as $key => $value) {
-        if (is_bool($value)) {
-            $value = $value ? "true" : "false";
-        }
-        if (array_key_exists($key, $uniqKeysFromFirstFile)) {
-            $result[] = "- {$key}: {$value}";
-        } elseif (array_key_exists($key, $equalsKeys)) {
-            $result[] = "  {$key}: {$value}";
-        } elseif ($firstFile[$key] !== $secondFile[$key]) {
-            $result[] = "- {$key}: {$value}";
-            $result[] = "+ {$key}: {$secondFile[$key]}";
-        }
-    }
+function buildDiff(array $firstFile, array $secondFile): array
+{
+    $firstFileKeys = array_keys($firstFile);
+    $secondFileKeys = array_keys($secondFile);
+    $allKeys = array_unique(array_merge($firstFileKeys, $secondFileKeys));
+    $sortedKeys = sort($allKeys, fn ($a, $b) => strcmp($a, $b));
 
-    foreach ($secondFile as $key => $value) {
-        if (is_bool($value)) {
-            $value = $value ? "true" : "false";
+    $tree = array_map(function ($key) use ($firstFile, $secondFile) {
+        if (!array_key_exists($key, $secondFile)) {
+            return ['key' => $key, 'value' => $firstFile[$key], 'type' => '-'];
+        } elseif (!array_key_exists($key, $firstFile)) {
+            return ['key' => $key, 'value' => $secondFile[$key], 'type' => '+'];
+        } elseif ($firstFile[$key] === $secondFile[$key]) {
+            return ['key' => $key, 'value' => $firstFile[$key], 'type' => 'unchanged'];
+        } elseif (is_array($firstFile[$key]) && is_array($secondFile[$key])) {
+            return ['key' => $key, 'type' => 'array', 'children' => buildDiff($firstFile[$key], $secondFile[$key])];
+        } else {
+            return ['key' => $key, 'firstValue' => $firstFile[$key],
+                                   'secondValue' => $secondFile[$key], 'type' => 'changed'];
         }
-        if (array_key_exists($key, $uniqKeysFromSecondFile)) {
-            $result[] = "+ {$key}: {$value}";
-        }
-    }
-
-    $result = array_unique($result);
-    $result = implode("\n", $result);
-    return ("{\n{$result}\n}");
+    }, $sortedKeys);
+    return $tree;
 }
