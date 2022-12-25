@@ -43,10 +43,10 @@ function getStylishFormat(array $tree, int $depth = 0): array
 
     $list = array_map(function ($node) use ($spaceBefore, $nextDepth) {
         switch ($node['type']) {
-            case '+':
+            case 'added':
                 $value = realValue($node['value'], $nextDepth);
                 return "{$spaceBefore}  + {$node['key']}: {$value}";
-            case '-':
+            case 'removed':
                 $value = realValue($node['value'], $nextDepth);
                 return "{$spaceBefore}  - {$node['key']}: {$value}";
             case 'unchanged':
@@ -67,7 +67,7 @@ function getStylishFormat(array $tree, int $depth = 0): array
     return $list;
 }
 
-function format(array $formatedTree): string
+function stylishFormat(array $formatedTree): string
 {
     $implodeIndent = implode("\n", getStylishFormat($formatedTree));
     return "{\n{$implodeIndent}\n}";

@@ -2,7 +2,7 @@
 
 namespace Differ\Differ;
 
-use function Differ\Formatters\Stylish\format;
+use function Differ\Formatters\format;
 use function Differ\Parsers\parseFile;
 use function Functional\sort;
 
@@ -12,7 +12,7 @@ function genDiff(string $firstPath, string $secondPath, string $format = 'stylis
     $secondFile = parseFile($secondPath);
     $diffTree = buildDiff($firstFile, $secondFile);
 
-    return format($diffTree);
+    return format($diffTree, $format);
 }
 
 function buildDiff(array $firstFile, array $secondFile): array
@@ -24,9 +24,9 @@ function buildDiff(array $firstFile, array $secondFile): array
 
     $tree = array_map(function ($key) use ($firstFile, $secondFile) {
         if (!array_key_exists($key, $secondFile)) {
-            return ['key' => $key, 'value' => $firstFile[$key], 'type' => '-'];
+            return ['key' => $key, 'value' => $firstFile[$key], 'type' => 'removed'];
         } elseif (!array_key_exists($key, $firstFile)) {
-            return ['key' => $key, 'value' => $secondFile[$key], 'type' => '+'];
+            return ['key' => $key, 'value' => $secondFile[$key], 'type' => 'added'];
         } elseif ($firstFile[$key] === $secondFile[$key]) {
             return ['key' => $key, 'value' => $firstFile[$key], 'type' => 'unchanged'];
         } elseif (is_array($firstFile[$key]) && is_array($secondFile[$key])) {
