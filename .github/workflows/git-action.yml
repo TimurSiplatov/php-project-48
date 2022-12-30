@@ -12,6 +12,7 @@ jobs:
       - name: linter
         run: make lint
       - name: test coverage
+        uses: paambaati/codeclimate-action@v3.2.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.COVERAGE_ID }}
         with:
