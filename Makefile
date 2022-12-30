@@ -5,4 +5,4 @@ lint: # линтер
 test: # тесты
 	composer exec --verbose phpunit tests/test.php
 coverage: # покрытие
-	composer exec --verbose XDEBUG_MODE=coverage phpunit tests -- --coverage-clover build/logs/clover.xml
+	composer exec --verbose phpunit tests -- --coverage-clover build/logs/clover.xml
