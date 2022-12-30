@@ -11,3 +11,10 @@ jobs:
         run: make test
       - name: linter
         run: make lint
+      - name: test coverage
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.COVERAGE_ID }}
+        with:
+          coverageCommand: make coverage
+          coverageLocation: ${{github.workplace}}/build/logs/clover.xml:clover
+          debug: true
