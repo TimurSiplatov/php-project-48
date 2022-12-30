@@ -1,0 +1,1 @@
+{"version":1,"defects":[],"times":{"Phpunit\\Tests\\Test::testMainJson":0.008,"Phpunit\\Tests\\Test::testMainYaml":0.005,"Phpunit\\Tests\\Test::testPlainFormat":0.001}}

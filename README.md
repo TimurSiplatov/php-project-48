@@ -2,6 +2,7 @@
 [![Actions Status](https://github.com/TimurSiplatov/php-project-48/workflows/hexlet-check/badge.svg)](https://github.com/TimurSiplatov/php-project-48/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/cf003f784408b91abe42/maintainability)](https://codeclimate.com/github/TimurSiplatov/php-project-48/maintainability)
 [![action](https://github.com/TimurSiplatov/php-project-48/actions/workflows/git-action.yml/badge.svg)](https://github.com/TimurSiplatov/php-project-48/actions/workflows/git-action.yml)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/cf003f784408b91abe42/test_coverage)](https://codeclimate.com/github/TimurSiplatov/php-project-48/test_coverage)
 ###
 Hello, this is my second hexlet project - difference calculator
 
