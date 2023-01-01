@@ -43,5 +43,5 @@ function realValue(mixed $value): string
     } elseif (is_array($value)) {
         return '[complex value]';
     }
-    return "'{$value}'";
+    return var_export($value, true);
 }
