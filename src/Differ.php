@@ -22,7 +22,7 @@ function buildDiff(array $firstFile, array $secondFile): array
     $allKeys = array_unique(array_merge($firstFileKeys, $secondFileKeys));
     $sortedKeys = sort($allKeys, fn ($a, $b) => strcmp($a, $b));
 
-    $tree = array_map(function ($key) use ($firstFile, $secondFile) {
+    return $tree = array_map(function ($key) use ($firstFile, $secondFile) {
         if (!array_key_exists($key, $secondFile)) {
             return ['key' => $key, 'value' => $firstFile[$key], 'type' => 'removed'];
         } elseif (!array_key_exists($key, $firstFile)) {
@@ -36,5 +36,4 @@ function buildDiff(array $firstFile, array $secondFile): array
                                    'secondValue' => $secondFile[$key], 'type' => 'changed'];
         }
     }, $sortedKeys);
-    return $tree;
 }
