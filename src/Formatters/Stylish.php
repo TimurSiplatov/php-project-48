@@ -41,7 +41,7 @@ function getStylishFormat(array $tree, int $depth = 0): array
     $spaceBefore = spaceBeforeString($depth);
     $nextDepth = $depth + 1;
 
-    $list = array_map(function ($node) use ($spaceBefore, $nextDepth) {
+    return $list = array_map(function ($node) use ($spaceBefore, $nextDepth) {
         switch ($node['type']) {
             case 'added':
                 $value = realValue($node['value'], $nextDepth);
@@ -64,7 +64,6 @@ function getStylishFormat(array $tree, int $depth = 0): array
                 throw new \Exception("error, default case");
         }
     }, $tree);
-    return $list;
 }
 
 function stylishFormat(array $formatedTree): string
