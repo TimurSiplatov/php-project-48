@@ -5,4 +5,4 @@ lint: # линтер
 test: # тесты
 	composer exec --verbose phpunit tests/DifferTest.php
 coverage: # покрытие
-	composer exec --verbose phpunit tests/test.php -- --coverage-clover build/logs/clover.xml
+	composer exec --verbose phpunit tests/DifferTest.php -- --coverage-clover build/logs/clover.xml
